@@ -12,7 +12,7 @@ class Core
         $this->removeMagicQuotes();
         $this->unregisterGlobals();
 		//路由
-		$Router = new Router();
+		$Router = new Lib_Router();
         $Router->run();
     }
     // 检测开发环境
@@ -61,32 +61,59 @@ class Core
             }
         }
     }
-
+	
+	public static function getClass($class){
+		$result = array();
+		if(substr($class,-10) == 'Controller') {
+            $result['type'] = 1;
+			$result['className'] = substr($class,0,-12);
+        }elseif(substr($class,-5) == 'Model'){ // 加载模型
+            $result['type'] = 2;
+			$result['className'] = substr($class,0,-7);
+        }elseif(substr($class,0,2) == 'Lib'){ // 加载模型
+            $result['type'] = 3;
+			$result['className'] = substr($class,4,-1);
+        }else{
+			$result['type'] = 0;
+			$result['className'] = $class;
+		}
+		return $result; 
+	}
+	
     // 自动加载控制器和模型类 
     public static function loadClass($class)
     {
-        $frameworks = FRAME_PATH . $class . '.class.php';
-        $controllers = APP_PATH . 'App/Modules/Controllers/' . $class . '.class.php';
-        $models = APP_PATH . 'App/Modules/Models/' . $class . '.class.php';
-		echo $frameworks;
-		echo "<br/>";
-		echo $controllers;
-		echo "<br/>";
-		echo $models;
-		echo "<br/>";
-		echo "<br/>";
+        //$frameworks = FRAME_PATH . $class . '.class.php';
+       // $controllers = APP_PATH . 'App/Modules/Controllers/' . $class . '.class.php';
+       // $models = APP_PATH . 'App/Modules/Models/' . $class . '.class.php';
+		$classInfo = $this->getClass($class);
+		var_dump($classInfo);exit;
+		$coreFile = CORE_PATH;
+		$libFile    =   LIB_PATH . substr($class,4) . '.php';
 		
-        if (file_exists($frameworks)) {
-            // 加载框架核心类
-            include $frameworks;
-        } elseif (file_exists($controllers)) {
-            // 加载应用控制器类
-            include $controllers;
-        } elseif (file_exists($models)) {
-            //加载应用模型类
-            include $models;
-        } else {
-            /* 错误代码 */
+		$file       =   substr($class,4);
+		$controllerFile    =   CONTROLLER_PATH . $class . '.php';
+		$modelFile    =   MODEL_PATH . $class . '.php';
+        
+		
+		echo $class;
+		echo "<br/>";
+		echo $libFile;
+		echo "<br/>";
+		echo $modelFile;
+		echo "<br/>";
+		echo $file;
+		echo "<br/>";
+		echo "<br/>";
+		exit;
+        if(substr($class,-10)=='Controller') { // 加载控制器
+            if(require_array(array($libFile,$controllerFile),true)){
+                return ;
+            }
+        }elseif(substr($class,-5)=='Model'){ // 加载模型
+            if(require_array(array($libFile,$modelFile),true)){
+                return ;
+            }
         }
     }
 	/**
