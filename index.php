@@ -6,5 +6,5 @@ define('APP_DEBUG', true);
 // 网站根URL
 define('APP_URL', './TeaPHP');
 
-// 加载框架1
+// 加载框架
 require './TeaPHP/TeaPHP.php';
