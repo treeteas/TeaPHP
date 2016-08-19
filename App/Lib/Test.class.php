@@ -1,6 +1,6 @@
 <?php
  
-class TestController extends Controller
+class Lib_Test extends Controller
 {
     function index()
     {

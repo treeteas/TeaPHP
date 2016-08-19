@@ -44,7 +44,7 @@ function require_array($array,$return=false){
  */
 function file_exists_case($filename) {
     if (is_file($filename)) {
-        if (IS_WIN && C('APP_FILE_CASE')) {
+        if (IS_WIN && APP_FILE_CASE) {
             if (basename(realpath($filename)) != basename($filename))
                 return false;
         }

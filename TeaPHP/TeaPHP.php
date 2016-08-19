@@ -8,6 +8,7 @@ defined('FRAME_PATH') or define('FRAME_PATH', __DIR__.'/');
 defined('CORE_PATH') or define('CORE_PATH', __DIR__.'/Lib/');
 defined('APP_PATH') or define('APP_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');
 defined('APP_DEBUG') or define('APP_DEBUG', false);
+defined('APP_FILE_CASE') or define('APP_FILE_CASE', false);// 是否检查文件的大小写 对Windows平台有效
 defined('LIB_PATH') or define('LIB_PATH', APP_PATH.'Lib/'); // 项目类库目录
 defined('CONTROLLER_PATH') or define('CONTROLLER_PATH', APP_PATH.'Controllers/'); // 项目模型类库目录
 defined('MODEL_PATH') or define('MODEL_PATH', APP_PATH.'Models/'); // 项目模型类库目录
@@ -24,7 +25,7 @@ require './Conf/config.php';
 require FRAME_PATH . 'Common/common.php';
 
 //包含核心框架类
-require CORE_PATH . 'Core.php';
+require CORE_PATH . 'Core.class.php';
 
 // 实例化核心类
 $TeaPHP = new Core;

@@ -12,8 +12,8 @@ class Core
         $this->removeMagicQuotes();
         $this->unregisterGlobals();
 		//路由
-		$Router = new Lib_Router();
-        $Router->run();
+		$Router = new Lib_Test();
+        var_dump($Router);exit;
     }
     // 检测开发环境
     public function setReporting()
@@ -62,58 +62,38 @@ class Core
         }
     }
 	
-	public static function getClass($class){
-		$result = array();
-		if(substr($class,-10) == 'Controller') {
-            $result['type'] = 1;
-			$result['className'] = substr($class,0,-12);
-        }elseif(substr($class,-5) == 'Model'){ // 加载模型
-            $result['type'] = 2;
-			$result['className'] = substr($class,0,-7);
-        }elseif(substr($class,0,2) == 'Lib'){ // 加载模型
-            $result['type'] = 3;
-			$result['className'] = substr($class,4,-1);
-        }else{
-			$result['type'] = 0;
-			$result['className'] = $class;
-		}
-		return $result; 
-	}
-	
-    // 自动加载控制器和模型类 
+	/**
+     * 自动加载控制器和模型类
+     * @用法:(1)加载Controllers中的类 new classController (2)加载Models中的类 new classModel
+	 * @用法:(3)加载Lib中的类 new Lib_class (4)加载Modules中的类 new ModuleName_class_Modules
+	 * @用法:(5)加载TeaPHP中的核心类 new class
+     * @param string $class 对象类名
+     * @return void
+     */
     public static function loadClass($class)
     {
         //$frameworks = FRAME_PATH . $class . '.class.php';
        // $controllers = APP_PATH . 'App/Modules/Controllers/' . $class . '.class.php';
        // $models = APP_PATH . 'App/Modules/Models/' . $class . '.class.php';
-		$classInfo = $this->getClass($class);
-		var_dump($classInfo);exit;
-		$coreFile = CORE_PATH;
-		$libFile    =   LIB_PATH . substr($class,4) . '.php';
-		
-		$file       =   substr($class,4);
-		$controllerFile    =   CONTROLLER_PATH . $class . '.php';
-		$modelFile    =   MODEL_PATH . $class . '.php';
-        
-		
-		echo $class;
-		echo "<br/>";
-		echo $libFile;
-		echo "<br/>";
-		echo $modelFile;
-		echo "<br/>";
-		echo $file;
-		echo "<br/>";
-		echo "<br/>";
-		exit;
-        if(substr($class,-10)=='Controller') { // 加载控制器
-            if(require_array(array($libFile,$controllerFile),true)){
-                return ;
-            }
-        }elseif(substr($class,-5)=='Model'){ // 加载模型
-            if(require_array(array($libFile,$modelFile),true)){
-                return ;
-            }
+	   //echo substr($class,6,-1);exit;
+		if(substr($class,-10) == 'Controller') {
+            $className = substr($class,0,-10);
+			$coreFile = CORE_PATH . 'Controller' . '.class.php';
+			$file = APP_PATH . 'Controllers/' . $className . '.class.php';
+        }elseif(substr($class,-5) == 'Model'){
+            $className = substr($class,0,-5);
+			$coreFile = CORE_PATH . 'Model' . '.class.php';
+			$file = APP_PATH . 'Models/' . $className . '.class.php';
+        }elseif(substr($class,0,3) == 'Lib'){
+            $className = substr($class,4);
+			$coreFile = CORE_PATH . 'Controller' . '.class.php';
+			$file = APP_PATH . 'Lib/' . $className . '.class.php';
+        }else{
+			$coreFile = CORE_PATH . 'Controller' . '.class.php';
+			$file = CORE_PATH . $class . '.class.php';
+        }
+		if(require_array(array($file,$coreFile),true)){
+            return ;
         }
     }
 	/**
