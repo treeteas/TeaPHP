@@ -22,7 +22,7 @@ class Router {
         $controllerClass = $controller . 'Controller';
         $action = $data['action'];
 		$param[] = $data['param'];
-		require  APP_PATH . 'App/Modules/' . $module . '/Controllers/' . $controller . '.php';
+		require  APP_PATH . 'Modules/' . $module . '/Controllers/' . $controller . '.class.php';
         $dispatch = new $controllerClass($module, $controller, $action);
         // 如果控制器和动作存在，调用并传入URL参数
         if ((int)method_exists($controllerClass, $action)) {

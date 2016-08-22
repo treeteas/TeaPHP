@@ -28,10 +28,10 @@ class View
         extract($this->variables);
 		$controller = empty($controller) ? '/Views/' : '/Views/'.$controller.'/';
 		$templateFile = empty($templateFile) ? $this->_action : $templateFile;
-        $defaultHeader = APP_PATH . 'App/Modules/' . $this->_module . '/Views/Common/header.'.VIEW_EXT;
-        $defaultFooter = APP_PATH . 'App/Modules/' . $this->_module . '/Views/Common/footer.'.VIEW_EXT;
+        $defaultHeader = APP_PATH . 'Modules/' . $this->_module . '/Views/Common/header.'.VIEW_EXT;
+        $defaultFooter = APP_PATH . 'Modules/' . $this->_module . '/Views/Common/footer.'.VIEW_EXT;
 		
-        $template = APP_PATH . 'App/Modules/' . $this->_module . $controller . $templateFile . '.'.VIEW_EXT;
+        $template = APP_PATH . 'Modules/' . $this->_module . $controller . $templateFile . '.'.VIEW_EXT;
         // 默认模板头文件
         if (file_exists($defaultHeader)) {
             include ($defaultHeader);

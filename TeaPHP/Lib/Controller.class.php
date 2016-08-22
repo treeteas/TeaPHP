@@ -10,7 +10,7 @@ class Controller
     protected $_view;
  
     // 构造函数，初始化属性，并实例化对应模型
-    public function __construct($module,$controller, $action)
+    public function __construct($module = 'Index',$controller = 'IndexController', $action = 'index')
     {
 		$this->_module = $module;
         $this->_controller = $controller;
