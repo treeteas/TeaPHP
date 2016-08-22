@@ -122,3 +122,16 @@ function load($name, $baseUrl='', $ext='.php') {
         $baseUrl       .= '/';
     require_cache($baseUrl . $name . $ext);
 }
+/**
+ * 记录日志信息
+ * @param string $message 日志信息
+ * @param string $file 存储路径
+ * @return void
+ */
+function  log_result($message,$file = APP_PATH."Log/log.txt") {
+    $fp = fopen($file,"a");
+    flock($fp, LOCK_EX) ;
+    fwrite($fp,"执行日期：".date('Y-m-d H:i:s',time())."\n".$message."\n\n");
+    flock($fp, LOCK_UN);
+    fclose($fp);
+}

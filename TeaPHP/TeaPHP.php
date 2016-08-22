@@ -18,6 +18,7 @@ defined('VAR_MODULE') or define('VAR_MODULE', 'm');
 defined('VAR_CONTROLLER') or define('VAR_CONTROLLER', 'c');
 defined('VAR_ACTION') or define('VAR_ACTION', 'a');
 defined('VIEW_EXT') or define('VIEW_EXT', 'html');//模板文件类型
+
 // 包含配置文件
 require './Conf/config.php';
 

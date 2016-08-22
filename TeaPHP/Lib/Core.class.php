@@ -7,6 +7,9 @@ class Core
     // 运行程序
     public function run()
     {
+		// 设定错误和异常处理
+        register_shutdown_function(array('Core','fatalError'));
+		// 注册AUTOLOAD方法
 		spl_autoload_register(array($this, 'loadClass'));
         $this->setReporting();
         $this->removeMagicQuotes();
@@ -89,6 +92,23 @@ class Core
         }
 		if(require_array(array($file,$coreFile),true)){
             return ;
+        }
+    }
+	
+    // 致命错误捕获
+    static public function fatalError() {
+        // 保存日志记录
+        if ($e = error_get_last()) {
+            switch($e['type']){
+              case E_ERROR:
+              case E_PARSE:
+              case E_CORE_ERROR:
+              case E_COMPILE_ERROR:
+              case E_USER_ERROR:  
+                ob_end_clean();
+                function_exists('log_result')?log_result($e['message']):exit('ERROR:'.$e['message']);
+                break;
+            }
         }
     }
 }
